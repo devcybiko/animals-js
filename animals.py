@@ -4,12 +4,6 @@ import json
 
 root={}
 
-def bootstrap_decision_tree():
-    global root
-    birdQuestion = {"value": "robin","yes": None,"no": None}
-    fishQuestion = {"value": "salmon","yes": None,"no": None}
-    root = {"value": "does it fly","yes": birdQuestion,"no": fishQuestion}
-
 def an(animal):
     if animal[0] in ['a', 'e', 'i', 'o', 'u']: return "an " + animal
     else: return "a " + animal
@@ -50,6 +44,25 @@ def dump_decision_tree(node):
     _dump("", root, node)
     print("")
 
+def bootstrap_decision_tree():
+    global root
+    birdQuestion = {"value": "robin","yes": None,"no": None}
+    fishQuestion = {"value": "salmon","yes": None,"no": None}
+    root = {"value": "does it fly","yes": birdQuestion,"no": fishQuestion}
+
+def read_decision_tree():
+    global root
+    try:
+        with open('tree.json') as f:
+            root = json.load(f)
+    except:
+        bootstrap_decision_tree()
+        write_decision_tree() ### initialize the missing file
+
+def write_decision_tree():
+    with open('tree.json', 'w') as f:
+        json.dump(root, f, indent=2)
+
 def inquire(prompt):
     s = input(prompt + "? ")
     s = s.lower().strip()
@@ -80,19 +93,6 @@ def new_animal(currentQuestion, lastQuestion, lastAnswer, cnt):
         question = inquire("Please enter a question to differentiate " + an(newAnimal)+" from " + an(animal))
         addQuestion(lastQuestion, lastAnswer, question, newAnimal)
     return answer
-
-def read_decision_tree():
-    global root
-    try:
-        with open('tree.json') as f:
-            root = json.load(f)
-    except:
-        bootstrap_decision_tree()
-        write_decision_tree() ### initialize the missing file
-
-def write_decision_tree():
-    with open('tree.json', 'w') as f:
-        json.dump(root, f, indent=2)
 
 def play_game():
     currentQuestion = root
