@@ -19,8 +19,7 @@ root = {
 };
 
 def an(animal):
-    if animal[0] in ['a', 'e', 'i', 'o', 'u']:
-        return "an " + animal
+    if animal[0] in ['a', 'e', 'i', 'o', 'u']: return "an " + animal
     else: return "a " + animal
 
 def addQuestion(currentQuestion, yesOrNo, question, animalName):
