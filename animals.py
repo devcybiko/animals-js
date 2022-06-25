@@ -2,24 +2,24 @@
 import time
 import json
 
-birdNode = {
+birdQuestion = {
     "value": "robin",
     "yes": None,
     "no": None
 }
-fishNode = {
+fishQuestion = {
     "value": "salmon",
     "yes": None,
     "no": None
 }
 root = {
     "value": "does it fly",
-    "yes": birdNode,
-    "no": fishNode
+    "yes": birdQuestion,
+    "no": fishQuestion
 };
 
-def addQuestion(node, yesOrNo, question, animalName):
-    oldAnimal = node.get(yesOrNo)
+def addQuestion(currentQuestion, yesOrNo, question, animalName):
+    oldAnimal = currentQuestion.get(yesOrNo)
     newAnimal = {
         "value": animalName,
         "yes": None,
@@ -30,15 +30,15 @@ def addQuestion(node, yesOrNo, question, animalName):
         "yes": newAnimal,
         "no": oldAnimal
     }
-    node[yesOrNo] = newQuestion
+    currentQuestion[yesOrNo] = newQuestion
     # if yesOrNo == 'yes':
-    #     oldAnimal = node.get("yes")
-    #     node["yes"] = newNode
-    #     newNode["no"] = oldAnimal
+    #     oldAnimal = currentQuestion.get("yes")
+    #     currentQuestion["yes"] = newQuestion
+    #     newQuestion["no"] = oldAnimal
     # else:
-    #     oldAnimal = node.get("no")
-    #     node["no"] = newNode
-    #     newNode["no"] = oldAnimal
+    #     oldAnimal = currentQuestion.get("no")
+    #     currentQuestion["no"] = newQuestion
+    #     newQuestion["no"] = oldAnimal
 
 def _dump(msg, node, currentNode, cnt=0):
     if not node: return
@@ -77,18 +77,17 @@ def ask_question(node):
         node = node.get("no")
     return [node, answer]
 
-def ask_animal(node, lastNode, lastAnswer, cnt):
-    answer = yes_or_no("is it a " + node.get("value"))
+def new_animal(currentQuestion, lastQuestion, lastAnswer, cnt):
+    animal = currentQuestion.get("value")
+    answer = yes_or_no("is it a " + animal)
     if answer == "yes":
         print("")
         print("I knew it! I got it in " + str(cnt) + " tries")
         print("Thanks for the game!\n")
     elif answer == "no":
-        animal = inquire("What animal were you thinking of")
-        question = inquire("Please enter a question to differentiate a "+animal+" from a " + node.get("value"))
-        addQuestion(lastNode, lastAnswer, question, animal)
-    again = yes_or_no("Would you like to play again, or 'quit'")
-    return [node, again]
+        newAnimal = inquire("What animal were you thinking of")
+        question = inquire("Please enter a question to differentiate a "+newAnimal+" from a " + animal)
+        addQuestion(lastQuestion, lastAnswer, question, newAnimal)
 
 def read_decision_tree():
     global root
@@ -102,24 +101,30 @@ def write_decision_tree():
     with open('tree.json', 'w') as f:
         json.dump(root, f, indent=2)
 
-def main():
-    read_decision_tree()
-    node = root
-    lastNode = node
+def play_game():
+    currentQuestion = root
+    lastQuestion = currentQuestion
     lastAnswer = "no"
     cnt=0
-    while True:
+    while lastAnswer != "quit":
         cnt = cnt + 1
-        dump_decision_tree(node)
-        if node.get("yes") != None:
-            lastNode = node
-            [node, lastAnswer] = ask_question(node)
-            if lastAnswer == "quit": break
+        dump_decision_tree(currentQuestion)
+        if currentQuestion["yes"] != None: ### it's an animal, not a question
+            lastQuestion = currentQuestion
+            [nextQuestion, lastAnswer] = ask_question(currentQuestion)
+            currentQuestion = nextQuestion
         else:
-            [node, again] = ask_animal(node, lastNode, lastAnswer, cnt)
-            write_decision_tree()
-            if again == "quit" or again == "no": break
-            cnt = 0
-            node = root
+            new_animal(currentQuestion, lastQuestion, lastAnswer, cnt)
+            break
+    return lastAnswer
+
+def main():
+    read_decision_tree()
+    again = "yes"
+    while again == "yes":
+        lastAnswer = play_game()
+        write_decision_tree()
+        if lastAnswer == "quit": again = "no"
+        else: again = yes_or_no("Would you like to play again, or 'quit'")
 
 main()

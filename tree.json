@@ -1,0 +1,77 @@
+{
+  "value": "does it fly",
+  "yes": {
+    "value": "does it have a long nose?",
+    "yes": {
+      "value": "is it extinct",
+      "yes": {
+        "value": "duck-billed platypus",
+        "yes": null,
+        "no": null
+      },
+      "no": {
+        "value": "toucan",
+        "yes": null,
+        "no": null
+      }
+    },
+    "no": {
+      "value": "is it nocturnal",
+      "yes": {
+        "value": "bat",
+        "yes": null,
+        "no": null
+      },
+      "no": {
+        "value": "was he played by adam west",
+        "yes": {
+          "value": "batman",
+          "yes": null,
+          "no": null
+        },
+        "no": {
+          "value": "robin",
+          "yes": null,
+          "no": null
+        }
+      }
+    }
+  },
+  "no": {
+    "value": "does it have a long nose",
+    "yes": {
+      "value": "does it like computers",
+      "yes": {
+        "value": "greg smith",
+        "yes": null,
+        "no": null
+      },
+      "no": {
+        "value": "elephant",
+        "yes": null,
+        "no": null
+      }
+    },
+    "no": {
+      "value": "is she fat",
+      "yes": {
+        "value": "does he say \"hey hey hey\"",
+        "yes": {
+          "value": "fat albert",
+          "yes": null,
+          "no": null
+        },
+        "no": {
+          "value": "your mom",
+          "yes": null,
+          "no": null
+        }
+      },
+      "no": {
+        "value": "salmon",
+        "yes": null,
+        "no": null
+      }
+    }
+  }
+}
