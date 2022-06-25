@@ -67,15 +67,13 @@ def yes_or_no(prompt):
         if s == "q" or s=="quit": return "quit"
         print("Please enter 'yes', 'no' or 'quit'")
 
-def ask_question(node):
-    answer = yes_or_no(node.get("value"))
+def ask_question(currentQuestion):
+    answer = yes_or_no(currentQuestion.get("value"))
     if answer == "yes":
-        node = node.get("yes")
+        nextQuestion = currentQuestion.get("yes")
     elif answer == "no":
-        lastNode = node
-        lastAnswer = answer
-        node = node.get("no")
-    return [node, answer]
+        nextQuestion = currentQuestion.get("no")
+    return [nextQuestion, answer]
 
 def new_animal(currentQuestion, lastQuestion, lastAnswer, cnt):
     animal = currentQuestion.get("value")
