@@ -6,21 +6,9 @@ root={}
 
 def bootstrap_decision_tree():
     global root
-    birdQuestion = {
-        "value": "robin",
-        "yes": None,
-        "no": None
-    }
-    fishQuestion = {
-        "value": "salmon",
-        "yes": None,
-        "no": None
-    }
-    root = {
-        "value": "does it fly",
-        "yes": birdQuestion,
-        "no": fishQuestion
-    }
+    birdQuestion = {"value": "robin","yes": None,"no": None}
+    fishQuestion = {"value": "salmon","yes": None,"no": None}
+    root = {"value": "does it fly","yes": birdQuestion,"no": fishQuestion}
 
 def an(animal):
     if animal[0] in ['a', 'e', 'i', 'o', 'u']: return "an " + animal
