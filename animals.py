@@ -18,6 +18,11 @@ root = {
     "no": fishQuestion
 };
 
+def an(animal):
+    if animal[0] in ['a', 'e', 'i', 'o', 'u']:
+        return "an " + animal
+    else: return "a " + animal
+
 def addQuestion(currentQuestion, yesOrNo, question, animalName):
     oldAnimal = currentQuestion.get(yesOrNo)
     newAnimal = {
@@ -69,22 +74,19 @@ def yes_or_no(prompt):
 
 def ask_question(currentQuestion):
     answer = yes_or_no(currentQuestion.get("value"))
-    if answer == "yes":
-        nextQuestion = currentQuestion.get("yes")
-    elif answer == "no":
-        nextQuestion = currentQuestion.get("no")
+    nextQuestion = currentQuestion.get(answer, None)
     return [nextQuestion, answer]
 
 def new_animal(currentQuestion, lastQuestion, lastAnswer, cnt):
     animal = currentQuestion.get("value")
-    answer = yes_or_no("is it a " + animal)
+    answer = yes_or_no("is it " + an(animal))
     if answer == "yes":
         print("")
         print("I knew it! I got it in " + str(cnt) + " tries")
         print("Thanks for the game!\n")
     elif answer == "no":
         newAnimal = inquire("What animal were you thinking of")
-        question = inquire("Please enter a question to differentiate a "+newAnimal+" from a " + animal)
+        question = inquire("Please enter a question to differentiate " + an(newAnimal)+" from " + an(animal))
         addQuestion(lastQuestion, lastAnswer, question, newAnimal)
     return answer
 
@@ -108,7 +110,7 @@ def play_game():
     while lastAnswer != "quit":
         cnt = cnt + 1
         dump_decision_tree(currentQuestion)
-        if currentQuestion["yes"] != None: ### it's an question, not a animal
+        if currentQuestion["yes"] != None: ### it's a question, not an animal
             [nextQuestion, lastAnswer] = ask_question(currentQuestion)
             lastQuestion = currentQuestion
             currentQuestion = nextQuestion
