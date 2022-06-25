@@ -88,6 +88,7 @@ def new_animal(currentQuestion, lastQuestion, lastAnswer, cnt):
         newAnimal = inquire("What animal were you thinking of")
         question = inquire("Please enter a question to differentiate a "+newAnimal+" from a " + animal)
         addQuestion(lastQuestion, lastAnswer, question, newAnimal)
+    return answer
 
 def read_decision_tree():
     global root
@@ -114,7 +115,7 @@ def play_game():
             [nextQuestion, lastAnswer] = ask_question(currentQuestion)
             currentQuestion = nextQuestion
         else:
-            new_animal(currentQuestion, lastQuestion, lastAnswer, cnt)
+            lastAnswer = new_animal(currentQuestion, lastQuestion, lastAnswer, cnt)
             break
     return lastAnswer
 

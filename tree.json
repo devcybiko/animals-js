@@ -55,17 +55,9 @@
     "no": {
       "value": "is she fat",
       "yes": {
-        "value": "does he say \"hey hey hey\"",
-        "yes": {
-          "value": "fat albert",
-          "yes": null,
-          "no": null
-        },
-        "no": {
-          "value": "your mom",
-          "yes": null,
-          "no": null
-        }
+        "value": "your mom",
+        "yes": null,
+        "no": null
       },
       "no": {
         "value": "salmon",
