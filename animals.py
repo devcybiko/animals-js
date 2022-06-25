@@ -1,20 +1,18 @@
 #!/usr/bin/env python3
 import time
+import json
 
 birdNode = {
-    "type": "animal",
     "value": "robin",
     "yes": None,
     "no": None
 }
 fishNode = {
-    "type": "animal",
     "value": "salmon",
     "yes": None,
     "no": None
 }
 root = {
-    "type": "question",
     "value": "does it fly",
     "yes": birdNode,
     "no": fishNode
@@ -23,13 +21,11 @@ root = {
 def addQuestion(node, yesOrNo, question, animalName):
     oldAnimal = node.get(yesOrNo)
     newAnimal = {
-        "type": "animal",
         "value": animalName,
         "yes": None,
         "no": None
     }
     newQuestion = {
-        "type": "question",
         "value": question,
         "yes": newAnimal,
         "no": oldAnimal
@@ -94,21 +90,35 @@ def ask_animal(node, lastNode, lastAnswer, cnt):
     again = yes_or_no("Would you like to play again, or 'quit'")
     return [node, again]
 
+def read_decision_tree():
+    global root
+    try:
+        with open('tree.json') as f:
+            root = json.load(f)
+    except:
+        write_decision_tree() ### initialize the missing file
+
+def write_decision_tree():
+    with open('tree.json', 'w') as f:
+        json.dump(root, f, indent=2)
+
 def main():
+    read_decision_tree()
     node = root
-    lastNode = root
-    lastAnswer = "n"
+    lastNode = node
+    lastAnswer = "no"
     cnt=0
     while True:
         cnt = cnt + 1
         dump_decision_tree(node)
-        if node.get("type") == "question":
+        if node.get("yes") != None:
             lastNode = node
             [node, lastAnswer] = ask_question(node)
-            if lastAnswer == "quit": return
+            if lastAnswer == "quit": break
         else:
             [node, again] = ask_animal(node, lastNode, lastAnswer, cnt)
-            if again == "quit" or again == "no": return
+            write_decision_tree()
+            if again == "quit" or again == "no": break
             cnt = 0
             node = root
 
