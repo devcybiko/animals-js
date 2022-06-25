@@ -2,21 +2,25 @@
 import time
 import json
 
-birdQuestion = {
-    "value": "robin",
-    "yes": None,
-    "no": None
-}
-fishQuestion = {
-    "value": "salmon",
-    "yes": None,
-    "no": None
-}
-root = {
-    "value": "does it fly",
-    "yes": birdQuestion,
-    "no": fishQuestion
-};
+root={}
+
+def bootstrap_decision_tree():
+    global root
+    birdQuestion = {
+        "value": "robin",
+        "yes": None,
+        "no": None
+    }
+    fishQuestion = {
+        "value": "salmon",
+        "yes": None,
+        "no": None
+    }
+    root = {
+        "value": "does it fly",
+        "yes": birdQuestion,
+        "no": fishQuestion
+    }
 
 def an(animal):
     if animal[0] in ['a', 'e', 'i', 'o', 'u']: return "an " + animal
@@ -95,6 +99,7 @@ def read_decision_tree():
         with open('tree.json') as f:
             root = json.load(f)
     except:
+        bootstrap_decision_tree()
         write_decision_tree() ### initialize the missing file
 
 def write_decision_tree():
