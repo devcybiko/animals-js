@@ -110,7 +110,7 @@ def play_game():
     while lastAnswer != "quit":
         cnt = cnt + 1
         dump_decision_tree(currentQuestion)
-        if currentQuestion["yes"] != None: ### it's an animal, not a question
+        if currentQuestion["yes"] != None: ### it's an question, not a animal
             lastQuestion = currentQuestion
             [nextQuestion, lastAnswer] = ask_question(currentQuestion)
             currentQuestion = nextQuestion
